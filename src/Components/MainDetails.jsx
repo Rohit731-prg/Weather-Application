@@ -58,16 +58,16 @@ function MainDetails() {
                 </div>
                 {weatherData && weatherData.main && (
                     <div className='mt-14 w-full'>
-                        <p className="text-7xl text-white font-serif mb-20">
+                        <p className="text-7xl text-white font-Copperplate mb-20">
                             {Math.floor(weatherData.main.temp - 273.15)} <span className="text-3xl">°C</span>
                         </p>
-                        <p className='text-white text-xl mt-5 font-serif'>Feels Like <span className='text-2xl'>{Math.floor(weatherData.main.feels_like - 273.15)} °C</span></p>
+                        <p className='text-white text-xl mt-5 font-Copperplate'>Feels Like <span className='text-2xl'>{Math.floor(weatherData.main.feels_like - 273.15)} °C</span></p>
                         <div className='w-full h-auto flex flex-row justify-between mt-5'>
-                            <p className='text-white font-serif text-lg'>Temp Max : <span className='text-3xl'>{Math.floor(weatherData.main.temp_max - 273.15)} °C</span></p>
-                            <p className='text-white font-serif text-lg'>Temp Min : <span className='text-3xl'>{Math.floor(weatherData.main.temp_min - 273.15)} °C</span></p>
+                            <p className='text-white font-Copperplate text-lg'>Temp Max : <span className='text-3xl'>{Math.floor(weatherData.main.temp_max - 273.15)} °C</span></p>
+                            <p className='text-white font-Copperplate text-lg'>Temp Min : <span className='text-3xl'>{Math.floor(weatherData.main.temp_min - 273.15)} °C</span></p>
                         </div>
-                        <p className='text-white font-serif text-lg mt-7'>humidity<span className='text-3xl ml-2'>{Math.floor(weatherData.main.humidity)} %</span></p>
-                        <p className='text-white font-serif text-lg mt-1'>Wind Speed<span className='text-3xl ml-2'>{Math.floor(weatherData.wind.speed)} Km/h</span></p>
+                        <p className='text-white font-Copperplate text-lg mt-7'>humidity<span className='text-3xl ml-2'>{Math.floor(weatherData.main.humidity)} %</span></p>
+                        <p className='text-white font-Copperplate text-lg mt-1'>Wind Speed<span className='text-3xl ml-2'>{Math.floor(weatherData.wind.speed)} Km/h</span></p>
                         <p className='mt-16 text-white text-xl '>
                             Experience accurate weather updates with our React JS and Tailwind-powered app, utilizing free APIs for real-time, stylish forecasts!
                         </p>
@@ -81,13 +81,13 @@ function MainDetails() {
                     <div className='w-full h-full flex flex-col px-10 justify-end py-5'>
                         <div className='w-full mt-5 h-auto flex flex-row justify-evenly'>
                             <div className='w-2/3 h-full flex flex-col justify-end'>
-                                <p className='text-white font-normal text-6xl mb-5'>{weatherData.weather[0].main}</p>
-                                <p className='text-white font-normal text-4xl'>{weatherData.weather[0].description}</p>
+                                <p className='text-white font-Copperplate text-6xl mb-5'>{weatherData.weather[0].main}</p>
+                                <p className='text-white font-Copperplate text-4xl'>{weatherData.weather[0].description}</p>
                             </div>
                             <img src={`http://openweathermap.org/img/wn/${weatherData.weather[0].icon}@2x.png`} className="w-1/3 h-full object-cover" />
                         </div>
                         <p className='text-white text-base mt-10'>{weatherData.name}, <span>{new Date().toDateString()},</span><span className='ml-2'>{new Date().toLocaleTimeString()}</span></p>
-                        <p className='text-white mt-2 text-2xl font-serif mb-3'>Cloud : {weatherData.clouds.all} %</p>
+                        <p className='text-white mt-2 text-2xl font-Copperplate mb-3'>Cloud : {weatherData.clouds.all} %</p>
                         <div className='w-full h-auto flex flex-row justify-between mb-3'>
                         {advanceData.hourly.temperature_2m.map((item, index) => (
                             (index % 3 === 0) && (index <= 23) ? ( // Check if index is in the desired sequence
