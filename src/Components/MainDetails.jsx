@@ -8,6 +8,28 @@ function MainDetails() {
     const [lon, setLon] = useState(0);
     const [lat, setLat] = useState(0);
 
+    const icon = {
+        '50d' : 'https://cdn-icons-png.flaticon.com/128/18478/18478770.png',
+        '01d' : 'https://cdn-icons-png.flaticon.com/128/3222/3222800.png',
+        '02d' : 'https://cdn-icons-png.flaticon.com/128/13621/13621290.png',
+        '03d' : 'https://cdn-icons-png.flaticon.com/128/13633/13633312.png',
+        '04d' : 'https://cdn-icons-png.flaticon.com/128/7486/7486769.png',
+        '09d' : 'https://cdn-icons-png.flaticon.com/128/6319/6319820.png',
+        '10d' : 'https://cdn-icons-png.flaticon.com/128/5545/5545843.png',
+        '11d' : 'https://cdn-icons-png.flaticon.com/128/2756/2756851.png',
+        '13d' : 'https://cdn-icons-png.flaticon.com/128/4834/4834727.png',
+
+        '50n' : 'https://cdn-icons-png.flaticon.com/128/2930/2930127.png',
+        '01n' : 'https://cdn-icons-png.flaticon.com/128/2402/2402957.png',
+        '02n' : 'https://cdn-icons-png.flaticon.com/128/3425/3425906.png',
+        '03n' : 'https://cdn-icons-png.flaticon.com/128/15487/15487460.png',
+        '04n' : 'https://cdn-icons-png.flaticon.com/128/7486/7486769.png',
+        '09n' : 'https://cdn-icons-png.flaticon.com/128/11035/11035259.png',
+        '10n' : 'https://cdn-icons-png.flaticon.com/128/5903/5903792.png',
+        '11n' : 'https://cdn-icons-png.flaticon.com/128/2337/2337416.png',
+        '13n' : 'https://cdn-icons-png.flaticon.com/128/6319/6319915.png',
+    }
+
     // Fetch weather and coordinate data based on location
     async function getdata() {
         try {
@@ -84,9 +106,9 @@ function MainDetails() {
                                 <p className='text-white font-Copperplate text-6xl mb-5'>{weatherData.weather[0].main}</p>
                                 <p className='text-white font-Copperplate text-4xl'>{weatherData.weather[0].description}</p>
                             </div>
-                            <img src={`http://openweathermap.org/img/wn/${weatherData.weather[0].icon}@2x.png`} className="w-1/3 h-full object-cover" />
+                            <img src={icon[weatherData.weather[0].icon]} className="w-[150px] h-[150px] object-cover" />
                         </div>
-                        <p className='text-white text-base mt-10'>{weatherData.name}, <span>{new Date().toDateString()},</span><span className='ml-2'>{new Date().toLocaleTimeString()}</span></p>
+                        <p className='text-white text-base mt-10'>{weatherData.name}, <span>{new Date(weatherData.dt * 1000).toUTCString()}</span></p>
                         <p className='text-white mt-2 text-2xl font-Copperplate mb-3'>Cloud : {weatherData.clouds.all} %</p>
                         <div className='w-full h-auto flex flex-row justify-between mb-3'>
                         {advanceData.hourly.temperature_2m.map((item, index) => (
