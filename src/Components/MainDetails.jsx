@@ -18,6 +18,7 @@ function MainDetails() {
         '10d' : 'https://cdn-icons-png.flaticon.com/128/5545/5545843.png',
         '11d' : 'https://cdn-icons-png.flaticon.com/128/2756/2756851.png',
         '13d' : 'https://cdn-icons-png.flaticon.com/128/4834/4834727.png',
+
         '50n' : 'https://cdn-icons-png.flaticon.com/128/2930/2930127.png',
         '01n' : 'https://cdn-icons-png.flaticon.com/128/2402/2402957.png',
         '02n' : 'https://cdn-icons-png.flaticon.com/128/3425/3425906.png',
@@ -30,12 +31,14 @@ function MainDetails() {
     }
 
     // Fetch weather and coordinate data based on location
-    async function getdata(lat, lon) {
+    async function getdata() {
         try {
-            const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=cdc346c153f2ccb8d70233dadf603e67`);
+            const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${location}&appid=cdc346c153f2ccb8d70233dadf603e67`);
             const data = await response.json();
             console.log('Basic Weather Data:', data);
             setWeatherData(data);
+            setLat(data.coord.lat);
+            setLon(data.coord.lon);
         } catch (error) {
             console.error('Error fetching location data:', error);
         }
@@ -53,28 +56,10 @@ function MainDetails() {
         }
     }
 
-    // Get user's location on page load
     useEffect(() => {
-        // Check if geolocation is available
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(
-                (position) => {
-                    const userLat = position.coords.latitude;
-                    const userLon = position.coords.longitude;
-                    setLat(userLat);
-                    setLon(userLon);
-                    getdata(userLat, userLon);  // Fetch weather data for user's location
-                },
-                (error) => {
-                    console.error('Error getting geolocation:', error);
-                }
-            );
-        } else {
-            console.log('Geolocation is not supported by this browser.');
-        }
+        getdata(); // Fetch data on component mount
     }, []);
 
-    // Fetch advanced weather data when coordinates are updated
     useEffect(() => {
         if (lat !== 0 && lon !== 0) {
             getAdvancedWeather(); // Fetch advanced data when coordinates are updated
@@ -91,7 +76,7 @@ function MainDetails() {
                         placeholder="Location Kolkata"
                         onChange={(e) => setLocation(e.target.value)}
                     />
-                    <button onClick={() => getdata(lat, lon)}>🔍</button>
+                    <button onClick={getdata}>🔍</button>
                 </div>
                 {weatherData && weatherData.main && (
                     <div className='mt-14 w-full'>
@@ -127,15 +112,28 @@ function MainDetails() {
                         <p className='text-white mt-2 text-2xl font-Copperplate mb-3'>Cloud : {weatherData.clouds.all} %</p>
                         <div className='w-full h-auto flex flex-row justify-between mb-3'>
                         {advanceData.hourly.temperature_2m.map((item, index) => (
-                            (index % 3 === 0) && (index <= 23) ? (
+                            (index % 3 === 0) && (index <= 23) ? ( // Check if index is in the desired sequence
                                 <div key={index} className="w-[14%] h-20 flex flex-col rounded-xl py-5 justify-between">
-                                    <p className='text-white text-2xl text-center'>{item}°C</p>
+                                    <p className='text-white text-2xl text-center'>{item}°C</p> {/* Display the temperature */}
                                     <p className='text-xs w-full text-center text-white'>
                                         {new Date(advanceData.hourly.time[index]).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                                    </p>
+                                    </p> {/* Display only the time */}
                                 </div>
                             ) : null
                         ))}
+                        </div>
+                        <div className='w-full h-auto flex flex-row justify-between'>
+                            {advanceData.hourly.temperature_2m.map((item, index) => (
+                                (index % 24 === 12) && (index <= 156) ? ( // Check if index is in the desired sequence
+                                    <div key={index} className="group w-[14%] h-40 flex flex-col bg-black rounded-xl py-5 justify-between hover:bg-white transition-[0.3s] hover:shadow-md hover:shadow-white">
+                                        <p className="text-white group-hover:text-black text-2xl text-center">{item}°C</p> {/* Temperature */}
+                                        <img src={sun_logo} className="h-1/3 object-contain" />
+                                        <p className="text-xs w-full text-center text-white group-hover:text-black">
+                                            {new Date(advanceData.hourly.time[index]).toLocaleDateString()}
+                                        </p> {/* Date */}
+                                    </div>
+                                ) : null
+                            ))}
                         </div>
                     </div>
                 )}
